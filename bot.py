@@ -122,7 +122,7 @@ async def warn(ctx, person, reason="None"):
 @bot.command(pass_context=True)
 async def pong(ctx, numbera=1):
 	i = numbera
-	while numbera > 1:
+	while i > 1:
 		i -= 1
 		await ctx.send("@everyone")
 
