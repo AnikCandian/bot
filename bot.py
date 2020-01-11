@@ -119,4 +119,4 @@ async def help(ctx, command="None"):
 async def warn(ctx, person, reason="None"):
 	print("lol")
 
-bot.run("NjYzNjgzNTcwODA3NjAzMjIw.XhkV7g.cSiXfjtjxffrjOeyH0ScqGFCeKg")
+bot.run("NjYzNjgzNTcwODA3NjAzMjIw.XhkWkQ.pOMignbe1bKgDgnu-w3tztESI5c")
