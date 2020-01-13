@@ -117,7 +117,10 @@ async def help(ctx, command="None"):
 
 @bot.command(pass_context=True)
 async def warn(ctx, person, reason="None"):
-	print("lol")
+	embed = discord.Embed(title="Warning", description="You have been warned by a Higher Up for breaking a rule.", color=0x00FF00)
+	embed.add_field(name="Reason:", value=reason)
+	embed.add_field(name="Warned by:", value=ctx.message.author)
+	await person.send(embed=embed)
 	
 @bot.command(pass_context=True)
 async def pong(ctx):
