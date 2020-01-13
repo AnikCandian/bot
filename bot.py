@@ -120,6 +120,8 @@ async def warn(ctx, person, *, reason="None"):
 	embed = discord.Embed(title="Warning", description="You have been warned by a Higher Up for breaking a rule.", color=0x00FF00)
 	embed.add_field(name="Reason:", value=reason)
 	embed.add_field(name="Warned by:", value=ctx.message.author)
+	print(person)
+	print(ctx.message.author)
 	await person.send(embed=embed)
 	await ctx.message.author.send(embed=embed)
 	
