@@ -114,7 +114,8 @@ async def help(ctx, command="None"):
 			else:
 				embed = discord.Embed(title="Error", description="The command you searched for doesn't exist.", color=0xDC143C)
 	await ctx.send(embed=embed)
-@has_permissions(administrator=True)
+	
+'''@has_permissions(administrator=True)
 @bot.command(pass_context=True)
 async def warn(ctx, person, *, reason="None"):
 	embed = discord.Embed(title="Warning", description="You have been warned by a Higher Up for breaking a rule.", color=0x00FF00)
@@ -123,7 +124,7 @@ async def warn(ctx, person, *, reason="None"):
 	print(person)
 	print(ctx.message.author)
 	await person.send(embed=embed)
-	await ctx.message.author.send(embed=embed)
+	await ctx.message.author.send(embed=embed)'''
 	
 @bot.command(pass_context=True)
 async def pong(ctx):
