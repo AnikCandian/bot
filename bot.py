@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix = "-")
 messageIds = []
 lcommands = [["ping", "Returns the time required for the host to send info about the bot to the server. Measured in milliseconds.", "ping", "ping"],
 ["passport", "Makes a request for you to get a passport.", "passport <Reason of Entry (string)>", "passport @The Immigration Officer#9428"],
-["kick", "Kicks the requested player out of the group. Requires admin.", "kick <@Player (player)>", "kick @The Immigration Officer#9428"],
+["evict", "Kicks the requested player out of the group. Requires admin.", "evict <@Player (player)>", "evict @The Immigration Officer#9428"],
 ["setup", "Changes the bot's savings.", "setup <Option (string)> <Input (depends on Option)>", "setup prefix ;"],
 ["say", "Makes the bot say something.", "say <Text (string)>","say I'm a cookoo head."],
 ["flip", "Flips a coin and returns the outcome.", "flip", "flip"]
@@ -60,15 +60,18 @@ async def passport(ctx, *, reasonOfEntry):
 
 @has_permissions(administrator=True)
 @bot.command(pass_context=True)
-async def kick(ctx, member : discord.Member, *, reason=None):
+async def evict(ctx, member : discord.Member, *, reason=None):
 	await member.kick(reason=reason)
+	await ctx.send("I evicted " + str(member) + "!")
 
-@kick.error
-async def kick_error(ctx, error):
+@evict.error
+async def evict_error(ctx, error):
 	if isinstance(error, commands.MissingPermissions):
-		await ctx.send("There is noone to kick.")
+		await ctx.send("You cannot evict anyone.")
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send("Welp, there is nobody to evict based on your command.")
 	if isinstance(error, commands.BadArgument):
-		await ctx.send("You have passed a bad argument into kicking.")
+		await ctx.send("You have passed a bad argument into evicting.")
 	
 @bot.command(pass_context=True)
 @has_permissions(administrator=True)
@@ -84,7 +87,7 @@ async def say(ctx, *, whatToSay):
 	await ctx.send(whatToSay)
 
 @say.error
-async def say_error(ctx):
+async def say_error(ctx, error):
 	embed = discord.Embed(title="Error", description="There is nothing to say.")
 	await ctx.send(embed=embed)
 
@@ -96,7 +99,7 @@ async def setup_error(ctx, error):
 	if isinstance(error, commands.MissingRequiredArgument):
 		embed = discord.Embed(title="Error", description="You did not specify what you wanted to setup. Here is what you can setup.", color=0xDC143C)
 		embed.add_field(name="prefix", value="Changes the prefix of the bot. (e.g. setup prefix ? changes the prefix to ?, so you would have to use the setup command as ?setup)")
-		await ctx.send(embed)
+		await ctx.send(embed=embed)
 		
 @bot.command(pass_context=True)
 async def flip(ctx):
