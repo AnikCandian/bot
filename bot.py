@@ -63,6 +63,13 @@ async def passport(ctx, *, reasonOfEntry):
 async def kick(ctx, member : discord.Member, *, reason=None):
 	await member.kick(reason=reason)
 
+@kick.error
+async def kick_error(ctx, error):
+	if isinstance(error, MissingPermissions):
+		await ctx.send("There is noone to kick.")
+	if isinstance(error, BadArgument):
+		await ctx.send("You have passed a bad argument into kicking.")
+	
 @bot.command(pass_context=True)
 @has_permissions(administrator=True)
 async def setup(ctx, command, input):
@@ -76,13 +83,20 @@ async def setup(ctx, command, input):
 async def say(ctx, *, whatToSay):
 	await ctx.send(whatToSay)
 
+@say.error
+async def say_error(ctx):
+	await ctx.send(embed=discord.Embed(title="Error", description="There is nothing to say."))
 
 @setup.error
 async def setup_error(ctx, error):
-	#if isinstance(error, MissingPermissions):
-	embed = discord.Embed(title="Error", description="Something wrong happened. Please check if your command syntax was correct.", color=0xDC143C)
-	await ctx.send(embed=embed)
-
+	if isinstance(error, MissingPermissions):
+		embed = discord.Embed(title="Error", description="You do not have the required permissions to use the setup command.", color=0xDC143C)
+		await ctx.send(embed=embed)
+	if isinstance(error, MissingRequiredArgument):
+		embed = discord.Embed(title="Error", description="You did not specify what you wanted to setup. Here is what you can setup.", color=0xDC143C)
+		embed.add_field(name="prefix", value="Changes the prefix of the bot. (e.g. setup prefix ? changes the prefix to ?, so you would have to use the setup command as ?setup)")
+		await ctx.send(embed)
+		
 @bot.command(pass_context=True)
 async def flip(ctx):
 	outcome = random.choice([1,2])
