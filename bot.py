@@ -65,9 +65,9 @@ async def kick(ctx, member : discord.Member, *, reason=None):
 
 @kick.error
 async def kick_error(ctx, error):
-	if isinstance(error, MissingPermissions):
+	if isinstance(error, commands.MissingPermissions):
 		await ctx.send("There is noone to kick.")
-	if isinstance(error, BadArgument):
+	if isinstance(error, commands.BadArgument):
 		await ctx.send("You have passed a bad argument into kicking.")
 	
 @bot.command(pass_context=True)
@@ -85,14 +85,15 @@ async def say(ctx, *, whatToSay):
 
 @say.error
 async def say_error(ctx):
-	await ctx.send(embed=discord.Embed(title="Error", description="There is nothing to say."))
+	embed = discord.Embed(title="Error", description="There is nothing to say.")
+	await ctx.send(embed=embed)
 
 @setup.error
 async def setup_error(ctx, error):
-	if isinstance(error, MissingPermissions):
+	if isinstance(error, commands.MissingPermissions):
 		embed = discord.Embed(title="Error", description="You do not have the required permissions to use the setup command.", color=0xDC143C)
 		await ctx.send(embed=embed)
-	if isinstance(error, MissingRequiredArgument):
+	if isinstance(error, commands.MissingRequiredArgument):
 		embed = discord.Embed(title="Error", description="You did not specify what you wanted to setup. Here is what you can setup.", color=0xDC143C)
 		embed.add_field(name="prefix", value="Changes the prefix of the bot. (e.g. setup prefix ? changes the prefix to ?, so you would have to use the setup command as ?setup)")
 		await ctx.send(embed)
