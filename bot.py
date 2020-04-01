@@ -7,11 +7,12 @@ from discord.ext.commands import has_permissions
 bot = commands.Bot(command_prefix = "-")
 messageIds = []
 lcommands = [["ping", "Returns the time required for the host to send info about the bot to the server. Measured in milliseconds.", "ping", "ping"],
-["passport", "Makes a request for you to get a passport.", "passport <Reason of Entry (string)>", "passport @The Immigration Officer#9428"],
-["evict", "Kicks the requested player out of the group. Requires admin.", "evict <@Player (player)>", "evict @The Immigration Officer#9428"],
+["passport", "Makes a request for you to get a passport.", "passport <Reason of Entry (string)>", "passport I want to get euthanized"],
+["evict", "Kicks the requested player out of the group. Requires admin.", "evict <@Player (player)>", "evict @The Interpol Agent#9428"],
 ["setup", "Changes the bot's savings.", "setup <Option (string)> <Input (depends on Option)>", "setup prefix ;"],
 ["say", "Makes the bot say something.", "say <Text (string)>","say I'm a cookoo head."],
-["flip", "Flips a coin and returns the outcome.", "flip", "flip"]
+["flip", "Flips a coin and returns the outcome.", "flip", "flip"],
+["warn", "Warns the reqested player. Requires admin.", "warn <@Player (player)> (reason)", "warn @The Interpol Agent#9428 Illegally getting the job"]
 ]
 
 bot.remove_command('help')
@@ -41,7 +42,7 @@ async def ping(ctx):
 	await ctx.send(f"PONG! A humble {round(bot.latency * 1000)}ms!")
 
 @bot.command(pass_context=True)
-async def passport(ctx, *, reasonOfEntry):
+async def passport(ctx, *, reasonOfEntry="Okay boomer, this person didn't have a reason to enter!"):
 	if ctx.message.channel.id == 663677327863185418:
 		test = discord.utils.get(ctx.author.guild.roles, name="passport holder")
 		if test in ctx.author.roles:
@@ -143,6 +144,15 @@ async def warn(ctx, person, *, reason="None"):
 	print(ctx.message.author)
 	await person.send(embed=embed)
 	await ctx.message.author.send(embed=embed)
+@warn.error
+async def warn_error(ctx, error):
+	if isinstance(error, commands.MissingPermissions):
+		await ctx.send("You cannot warn bud.")
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send("There was noone to warn bud. Are you imagining things?")
+	if isinstance(error, commands.BadArgument):
+		await ctx.send("You have passed a bad argument into warning.")
+	await ctx.send("oh nothing happened whoops")
 	
 @bot.command(pass_context=True)
 async def pong(ctx):
