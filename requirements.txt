@@ -1,4 +1,3 @@
 git+https://github.com/Rapptz/discord.py
-git+https://github.com/python/cpython/tree/3.8/Lib/json
 dnspython==1.16.0
 async-timeout==3.0.1
