@@ -20,7 +20,7 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
 	print("bot")
-	await bot.change_presence(activity=discord.Game(name='a game called life'))
+	await bot.change_presence(activity=discord.Game(name='make believe. My prefix is "-".'))
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -78,8 +78,9 @@ async def evict_error(ctx, error):
 @has_permissions(administrator=True)
 async def setup(ctx, command, input):
 	if command == "prefix":
+		await bot.change_presence(activity=discord.Game(name='make believe. My prefix was formerly `' + bot.command_prefix + '` and is now ' + str(input) + "`!"))
 		bot.command_prefix = input
-		embed = discord.Embed(title="Action Finished!", description="The prefix has been changed to " + input, color=0x7CFC00)
+		embed = discord.Embed(title="Action Finished!", description="The prefix has been changed to `" + input + "`!", color=0x7CFC00)
 		embed.add_field(name="Note", value="The prefix will reset whenever this bot gets restarted", inline=True)
 		await ctx.send(embed=embed)
 
