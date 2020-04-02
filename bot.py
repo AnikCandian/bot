@@ -136,14 +136,12 @@ async def help(ctx, command="None"):
 	
 @has_permissions(administrator=True)
 @bot.command(pass_context=True)
-async def warn(ctx, person, *, reason="None"):
-	embed = discord.Embed(title="Warning", description="You have been warned by a Higher Up for breaking a rule.", color=0x00FF00)
-	embed.add_field(name="Reason:", value=reason)
-	embed.add_field(name="Warned by:", value=ctx.message.author)
-	print(person)
-	print(ctx.message.author)
-	await person.send(embed=embed)
-	await ctx.message.author.send(embed=embed)
+async def warn(ctx, player : discord.Member, *, reason="Ask whoever gave you the warning for more information."):
+    embed = discord.Embed(title = "You Have Received A Warning", description = "A high ranking agent from the guild  of " + player.guild.name + " has condemned whatever action you've done.", color=0xDC143C)
+    embed.add_field(name = "Reason", value = reason, inline= True)
+    embed.add_field(name = "Warned By", value = ctx.message.author.mention)
+    await player.send(embed=embed)
+    await ctx.send(str(player) + " has been warned by " +  ctx.message.author.mention + "!")
 @warn.error
 async def warn_error(ctx, error):
 	if isinstance(error, commands.MissingPermissions):
