@@ -2,7 +2,7 @@
 /* Initialize the required constants. "Discord" gets the variables, functions and such for the discord.js library, while
 client makes a new object from the discord.js library. */
 
-const Discord = require('discord.js');
+const Discord = require('https://github.com/discordjs/discord.js/');
 const client = new Discord.Client();
 
 
